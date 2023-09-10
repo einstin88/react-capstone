@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   createAuthUserWithEmail,
   createUserDocFromAuth,
@@ -7,8 +7,9 @@ import {
 import Button from '../button/button.component';
 import FormInput from '../form-input/form-input.component';
 
-import './sign-up-form.sytles.scss';
+import { UserContext } from '../../contexts/user.context';
 import { AUTH_EMAIL_IN_USE } from '../../utils/consts';
+import './sign-up-form.sytles.scss';
 
 const defaultFormData = {
   displayName: '',
@@ -20,6 +21,7 @@ const defaultFormData = {
 const SignUpForm = () => {
   const [formData, setFormData] = useState(defaultFormData);
   const { displayName, email, password, confirmPassword } = formData;
+  const { setCurrentUser } = useContext(UserContext);
 
   const resetFormData = () => {
     setFormData(defaultFormData);
@@ -42,6 +44,7 @@ const SignUpForm = () => {
     try {
       const { user } = await createAuthUserWithEmail(email, password);
       await createUserDocFromAuth(user, { displayName });
+      setCurrentUser(user);
 
       resetFormData();
     } catch (error) {

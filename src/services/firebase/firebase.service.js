@@ -1,12 +1,13 @@
 import { initializeApp } from 'firebase/app';
 import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
+  signOut
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 
 // CONFIG & INIT
 const firebaseConfig = {
@@ -38,6 +39,8 @@ export const createAuthUserWithEmail = async (email, password) => {
   if (!email || !password) return;
   return createUserWithEmailAndPassword(auth, email, password);
 };
+
+export const signUserOut = async () => await signOut(auth)
 
 // FIRESTORE METHODS
 export const db = getFirestore();

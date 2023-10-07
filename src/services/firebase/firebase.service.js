@@ -5,7 +5,8 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut
+  signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 
@@ -40,7 +41,10 @@ export const createAuthUserWithEmail = async (email, password) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signUserOut = async () => await signOut(auth)
+export const signUserOut = async () => await signOut(auth);
+
+export const authStateListener = (authCallback) =>
+  onAuthStateChanged(auth, authCallback);
 
 // FIRESTORE METHODS
 export const db = getFirestore();
